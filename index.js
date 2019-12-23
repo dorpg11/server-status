@@ -12,4 +12,4 @@ fs.readdir("./events/", (err, files) => {
   });
 });
 
-client.login('token');
+client.login('NjM4MDAzMjA5NDg2NTk4MTQ0.XcQH5A.U3cXvPW0rZNrJuPmmMGukf7DLBo');

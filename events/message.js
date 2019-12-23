@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const statusSC = require("../commands/statusSC");
+const statusSC = require("../commands/statusSC")
 const help = require("../commands/help")
 const status = require("../commands/status")
 const selfd = require("../commands/self-destruct")
