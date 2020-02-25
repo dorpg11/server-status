@@ -15,27 +15,12 @@ function fetchSendEn(ip_, url_, plrurl_, message_){
       status[0] = '✅ **Online** ✅';
       status[1] = body.server.name
       var motd = body.motd
-      motd = motd.replace(/§4/g, '');
-      motd = motd.replace(/§c/g, '');
-      motd = motd.replace(/§6/g, '');
-      motd = motd.replace(/§e/g, '');
-      motd = motd.replace(/§2/g, '');
-      motd = motd.replace(/§a/g, '');
-      motd = motd.replace(/§b/g, '');
-      motd = motd.replace(/§3/g, '');
-      motd = motd.replace(/§1/g, '');
-      motd = motd.replace(/§9/g, '');
-      motd = motd.replace(/§d/g, '');
-      motd = motd.replace(/§5/g, '');
-      motd = motd.replace(/§f/g, '');
-      motd = motd.replace(/§7/g, '');
-      motd = motd.replace(/§8/g, '');
-      motd = motd.replace(/§0/g, '');
-      motd = motd.replace(/§l/g, '');
-      motd = motd.replace(/§m/g, '');
-      motd = motd.replace(/§n/g, '');
-      motd = motd.replace(/§o/g, '');
-      motd = motd.replace(/§r/g, '');
+      var IllegalValues = ['§a', '§b', '§c', '§d', '§e', '§f', '§1', '§2', '§3', '§4', '§5', '§6', '§7', '§8', '§9', '§0', '§l', '§m', '§n', '§o', '§r']
+      var i;
+      for (i=0; i<IllegalValues.length; i++) {
+        motd = motd.replace(IllegalValues[i], '')
+        console.log(i + '. ' + motd, IllegalValues[i])
+      };
       status[2] = motd
       status[3] = body.players.now
       status[4] = body.players.max
@@ -92,27 +77,12 @@ function fetchSendFr(ip_, url_, plrurl_, message_){
       status[0] = '✅ **En Ligne** ✅';
       status[1] = body.server.name
       var motd = body.motd
-      motd = motd.replace(/§4/g, '');
-      motd = motd.replace(/§c/g, '');
-      motd = motd.replace(/§6/g, '');
-      motd = motd.replace(/§e/g, '');
-      motd = motd.replace(/§2/g, '');
-      motd = motd.replace(/§a/g, '');
-      motd = motd.replace(/§b/g, '');
-      motd = motd.replace(/§3/g, '');
-      motd = motd.replace(/§1/g, '');
-      motd = motd.replace(/§9/g, '');
-      motd = motd.replace(/§d/g, '');
-      motd = motd.replace(/§5/g, '');
-      motd = motd.replace(/§f/g, '');
-      motd = motd.replace(/§7/g, '');
-      motd = motd.replace(/§8/g, '');
-      motd = motd.replace(/§0/g, '');
-      motd = motd.replace(/§l/g, '');
-      motd = motd.replace(/§m/g, '');
-      motd = motd.replace(/§n/g, '');
-      motd = motd.replace(/§o/g, '');
-      motd = motd.replace(/§r/g, '');
+      var IllegalValues = ['§a', '§b', '§c', '§d', '§e', '§f', '§1', '§2', '§3', '§4', '§5', '§6', '§7', '§8', '§9', '§0', '§l', '§m', '§n', '§o', '§r']
+      var i;
+      for (i=0; i<IllegalValues.length; i++) {
+        motd = motd.replace(IllegalValues[i], '')
+        console.log(i + '. ' + motd, IllegalValues[i])
+      };
       status[2] = motd
       status[3] = body.players.now
       status[4] = body.players.max

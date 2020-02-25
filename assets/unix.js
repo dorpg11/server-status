@@ -1,34 +1,38 @@
 const Discord = require("discord.js")
 module.exports = timestamp => {
     console.log(timestamp)
-    var rawDate = new Date(timestamp * 1000).toDateString()
+    var rawDate = new Date(timestamp * 1000).toUTCString()
     console.log(rawDate)
-    var textDate = rawDate.split('GMT').trim()[0]
+    var textDate = rawDate.split('GMT')[0].trim()
     console.log(textDate)
     function clean() {
-        textDate = textDate.replace(',', '')
-        textDate = textDate.split(' ')
-        textDate[1].replace('Mon', 'Monday')
-        textDate[1].replace('Tue', 'Tuesday')
-        textDate[1].replace('Wed', 'Wednesday')
-        textDate[1].replace('Thu', 'Thursday')
-        textDate[1].replace('Fri', 'Friday')
-        textDate[1].replace('Sat', 'Saturday')
-        textDate[1].replace('Sun', 'Sunday')
-        textDate[3].replace('Jan', 'January')
-        textDate[3].replace('Feb', 'February')
-        textDate[3].replace('Mar', 'March')
-        textDate[3].replace('Apr', 'April')
-        textDate[3].replace('Jun', 'June')
-        textDate[3].replace('Jul', 'July')
-        textDate[3].replace('Aug', 'August')
-        textDate[3].replace('Sep', 'September')
-        textDate[3].replace('Oct', 'October')
-        textDate[3].replace('Nov', 'November')
-        textDate[3].replace('Dec', 'December')
-        textDate[6].replace('GMT', 'Greenwich Mean Time')
-        FinalDate = textDate[1] + ', ' + textDate[2] + ' ' + textDate[3] + ' ' + textDate[4]
-        FinalDate += ', ' + textDate[5] + ' ' + textDate[6]
+        textDate = textDate.replace(',', '');
+        textDate = textDate.split(' ');
+        var week = textDate[0]
+        var month = textDate[2]
+        week = week.replace(/Mon/g, 'Monday');
+        week = week.replace(/Tue/g, 'Tuesday');
+        week = week.replace(/Wed/g, 'Wednesday');
+        week = week.replace(/Thu/g, 'Thursday');
+        week = week.replace(/Fri/g, 'Friday');
+        week = week.replace(/Sat/g, 'Saturday');
+        week = week.replace(/Sun/g, 'Sunday');
+        month = month.replace(/Jan/g, 'January');
+        month = month.replace(/Feb/g, 'February');
+        month = month.replace(/Mar/g, 'March');
+        month = month.replace(/Apr/g, 'April');
+        month = month.replace(/Jun/g, 'June');
+        month = month.replace(/Jul/g, 'July');
+        month = month.replace(/Aug/g, 'August');
+        month = month.replace(/Sep/g, 'September');
+        month = month.replace(/Oct/g, 'October');
+        month = month.replace(/Nov/g, 'November');
+        month = month.replace(/Dec/g, 'December');
+        textDate[0] = week
+        textDate[2] = month
+        console.log(textDate)
+        FinalDate = '**' + textDate[4] + '**, ' + textDate[0] + ', ' + textDate[2]
+        FinalDate += ' ' + textDate[1] + ', ' + textDate[3] + ', Greenwich Mean Time' 
     }
     clean()
     return FinalDate
