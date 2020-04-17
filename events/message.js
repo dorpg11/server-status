@@ -1,9 +1,10 @@
 const Discord = require("discord.js");
-const statusSC = require("../commands/statusSC")
+const statusSC = require("../commands/statusSC_test")
+const statusM = require("../commands/statusM")
 const help = require("../commands/help")
 const status = require("../commands/status")
 const selfd = require("../commands/self-destruct")
-const invite = require ("../commands/invite")
+const invite = require("../commands/invite")
 
 module.exports = (client, message) => {
   if (message.content.startsWith("/help")) {
@@ -12,13 +13,16 @@ module.exports = (client, message) => {
   if (message.content.startsWith("/status-sc")) {
     return statusSC(message);
   }
+  if (message.content.startsWith("/status-mineria")) {
+    return statusM(message)
+  }
   if (message.content.startsWith("/status")) {
     return status(message);
   }
-  if(message.content.startsWith("/self-destruct")) {
+  if (message.content.startsWith("/self-destruct")) {
     return selfd(message)
   }
-  if(message.content.startsWith("/invite")) {
+  if (message.content.startsWith("/invite")) {
     return invite(message)
   }
 };

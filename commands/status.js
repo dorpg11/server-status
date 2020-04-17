@@ -3,39 +3,23 @@ const index = require('../index')
 const unix = require('../assets/unix')
 const unixFr = require('../assets/unix_français')
 const request = require('request')
-function fetchSendEn(ip_, url_, plrurl_, message_){
-  request(url_, function(err, response, body) {
-    if(err) {
+function fetchSendEn(ip_, url_, plrurl_, message_) {
+  request(url_, function (err, response, body) {
+    if (err) {
       console.log(err);
       return message_.reply('Error getting Minecraft server status...');
     }
     body = JSON.parse(body);
     var status = ['offline'];
-    if(body.online) {
+    if (body.online) {
       status[0] = '✅ **Online** ✅';
       status[1] = body.server.name
-      var motd = body.motd
-      motd = motd.replace(/§4/g, '');
-      motd = motd.replace(/§c/g, '');
-      motd = motd.replace(/§6/g, '');
-      motd = motd.replace(/§e/g, '');
-      motd = motd.replace(/§2/g, '');
-      motd = motd.replace(/§a/g, '');
-      motd = motd.replace(/§b/g, '');
-      motd = motd.replace(/§3/g, '');
-      motd = motd.replace(/§1/g, '');
-      motd = motd.replace(/§9/g, '');
-      motd = motd.replace(/§d/g, '');
-      motd = motd.replace(/§5/g, '');
-      motd = motd.replace(/§f/g, '');
-      motd = motd.replace(/§7/g, '');
-      motd = motd.replace(/§8/g, '');
-      motd = motd.replace(/§0/g, '');
-      motd = motd.replace(/§l/g, '');
-      motd = motd.replace(/§m/g, '');
-      motd = motd.replace(/§n/g, '');
-      motd = motd.replace(/§o/g, '');
-      motd = motd.replace(/§r/g, '');
+      var motd = body.motd.split('§')
+      var e = 0
+      for (e = 1; e < motd.length; e++) {
+        motd[e] = motd[e].slice(1)
+      }
+      motd = motd.join('')
       status[2] = motd
       status[3] = body.players.now
       status[4] = body.players.max
@@ -43,15 +27,15 @@ function fetchSendEn(ip_, url_, plrurl_, message_){
       status[6] = body.last_online
       status[7] = body.duration
       var plrlist = ''
-      request(plrurl_, function(err, response, body) {
+      request(plrurl_, function (err, response, body) {
         body = JSON.parse(body);
         body.players.sample.forEach(plrdata => {
           plrlist += '- ' + plrdata.name + '\n'
         })
         if (plrlist === '') {
-          if(status[3] === 0){
+          if (status[3] === 0) {
             plrlist = 'No Players are Online!'
-          }else{
+          } else {
             plrlist = '__Information Overloaded__'
           }
         }
@@ -80,39 +64,23 @@ function fetchSendEn(ip_, url_, plrurl_, message_){
     }
   });
 }
-function fetchSendFr(ip_, url_, plrurl_, message_){
-  request(url_, function(err, response, body) {
-    if(err) {
+function fetchSendFr(ip_, url_, plrurl_, message_) {
+  request(url_, function (err, response, body) {
+    if (err) {
       console.log(err);
       return message_.reply("Erreur lors de l'obtention de l'état du serveur Minecraft ...");
     }
     body = JSON.parse(body);
     var status = ['offline'];
-    if(body.online) {
+    if (body.online) {
       status[0] = '✅ **En Ligne** ✅';
       status[1] = body.server.name
-      var motd = body.motd
-      motd = motd.replace(/§4/g, '');
-      motd = motd.replace(/§c/g, '');
-      motd = motd.replace(/§6/g, '');
-      motd = motd.replace(/§e/g, '');
-      motd = motd.replace(/§2/g, '');
-      motd = motd.replace(/§a/g, '');
-      motd = motd.replace(/§b/g, '');
-      motd = motd.replace(/§3/g, '');
-      motd = motd.replace(/§1/g, '');
-      motd = motd.replace(/§9/g, '');
-      motd = motd.replace(/§d/g, '');
-      motd = motd.replace(/§5/g, '');
-      motd = motd.replace(/§f/g, '');
-      motd = motd.replace(/§7/g, '');
-      motd = motd.replace(/§8/g, '');
-      motd = motd.replace(/§0/g, '');
-      motd = motd.replace(/§l/g, '');
-      motd = motd.replace(/§m/g, '');
-      motd = motd.replace(/§n/g, '');
-      motd = motd.replace(/§o/g, '');
-      motd = motd.replace(/§r/g, '');
+      var motd = body.motd.split('§')
+      var e = 0
+      for (e = 1; e < motd.length; e++) {
+        motd[e] = motd[e].slice(1)
+      }
+      motd = motd.join('')
       status[2] = motd
       status[3] = body.players.now
       status[4] = body.players.max
@@ -120,15 +88,15 @@ function fetchSendFr(ip_, url_, plrurl_, message_){
       status[6] = body.last_online
       status[7] = body.duration
       var plrlist = ''
-      request(plrurl_, function(err, response, body) {
+      request(plrurl_, function (err, response, body) {
         body = JSON.parse(body);
         body.players.sample.forEach(plrdata => {
           plrlist += '- ' + plrdata.name + '\n'
         })
         if (plrlist === '') {
-          if(status[3] === 0){
+          if (status[3] === 0) {
             plrlist = "Aucun Joueur n'est en Ligne!"
-          }else{
+          } else {
             plrlist = "__Surcharge d'information__"
           }
         }
@@ -158,15 +126,14 @@ function fetchSendFr(ip_, url_, plrurl_, message_){
   });
 }
 module.exports = message => {
-  index.client.user.setAvatar('./assets/profile.png')
-  const prefix = '/status-sc '
+  const prefix = '/status '
   var args = message.content.slice(prefix.length).split(' ');
   var ip = args[0]
   if (args[1] === 'fr') {
     var url = 'https://mcapi.us/server/status?ip=' + ip
     var plrurl = 'https://api.minetools.eu/ping/' + ip
     fetchSendFr(ip, url, plrurl, message)
-  }else{
+  } else {
     var url = 'https://mcapi.us/server/status?ip=' + ip
     var plrurl = 'https://api.minetools.eu/ping/' + ip
     fetchSendEn(ip, url, plrurl, message)

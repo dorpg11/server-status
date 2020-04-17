@@ -1,5 +1,6 @@
 const Discord = require("discord.js")
 const index = require('../index')
+const IsThereAIP = true
 const fs = require("fs")
 const unix = require('../assets/unix')
 const unixFr = require('../assets/unix_français')
@@ -8,12 +9,11 @@ function fetchSendEn(ip_, port_, url_, plrurl_, message_) {
   request(url_, function (err, response, body) {
     if (err) {
       console.log(err);
-      console.log(`confirm`)
       return message_.reply('Error getting Minecraft server status...');
     }
     body = JSON.parse(body);
     var status = ['offline'];
-    if (body.online === true) {
+    if (body.online) {
       status[0] = '✅ **Online** ✅';
       status[1] = body.server.name
       var motd = body.motd.split('§')
@@ -30,8 +30,7 @@ function fetchSendEn(ip_, port_, url_, plrurl_, message_) {
       status[7] = body.duration
       var plrlist = ''
       request(plrurl_, function (err, response, body) {
-        console.log(body)
-        body = JSON.parse(body)
+        body = JSON.parse(body);
         body.players.sample.forEach(plrdata => {
           plrlist += '- ' + plrdata.name + '\n'
         })
@@ -45,11 +44,11 @@ function fetchSendEn(ip_, port_, url_, plrurl_, message_) {
         var embedEn = new Discord.RichEmbed()
           .setColor([0, 175, 0])
           .setAuthor(message_.author.tag, message_.author.avatarURL)
-          .setTitle('**Server Status of __[Survivor Cube]__**')
+          .setTitle('**Server Status of __[Mineria]__**')
           .setThumbnail(index.client.user.avatarURL)
           .addBlankField()
           .addField('**Status**', status[0], true)
-          .addField('__**[Survivor Cube]**__', 'ip: ' + ip_ + '\n port: ' + port_ + '\n\n' + status[2], true)
+          .addField('__**[Mineria]**__', 'ip: ' + ip_ + '\n port: ' + port_ + '\n\n' + status[2], true)
           .addBlankField()
           .addField('**Server Software**', status[1], true)
           .addField('**Players**', status[3] + '/' + status[4] + ' players online', true)
@@ -62,8 +61,8 @@ function fetchSendEn(ip_, port_, url_, plrurl_, message_) {
     if (body.status === 'error') {
       return message_.channel.send('❌' + body.error + '❌')
     }
-    if (!body.online) {
-      return message_.channel.send('__**Survivor Cube**__ is **Offline**')
+    if (status[0] === 'offline') {
+      return message_.channel.send('__**Mineria**__ is **Offline**')
     }
   });
 }
@@ -106,11 +105,11 @@ function fetchSendFr(ip_, port_, url_, plrurl_, message_) {
         var embedEn = new Discord.RichEmbed()
           .setColor([0, 175, 0])
           .setAuthor(message_.author.tag, message_.author.avatarURL)
-          .setTitle('**État du serveur de __[Survivor Cube]__**')
+          .setTitle('**État du serveur de __[Mineria]__**')
           .setThumbnail(index.client.user.avatarURL)
           .addBlankField()
           .addField('**Statut**', status[0], true)
-          .addField('__**[Survivor Cube]**__', 'ip: ' + ip_ + '\n port: ' + port_ + '\n\n' + status[2], true)
+          .addField('__**[Mineria]**__', 'ip: ' + ip_ + '\n port: ' + port_ + '\n\n' + status[2], true)
           .addBlankField()
           .addField('**Logiciel Serveur**', status[1], true)
           .addField('**Joueurs**', status[3] + '/' + status[4] + ' Joueurs en Ligne', true)
@@ -124,7 +123,7 @@ function fetchSendFr(ip_, port_, url_, plrurl_, message_) {
       return message_.channel.send('❌' + body.error + '❌')
     }
     if (status[0] === 'offline') {
-      return message_.channel.send('__**Survivor Cube**__ est **Déconnecté**')
+      return message_.channel.send('__**Mineria**__ est **Déconnecté**')
     }
   });
 }
@@ -133,13 +132,14 @@ module.exports = message => {
   const request = require('request')
   var ip = ''
   var port = ''
-  fs.readFile('./IP.txt', 'UTF8', function (err, buf) {
+  fs.readFile('./IPM.txt', 'UTF8', function (err, buf) {
     ip = buf
-    fs.readFile("./PORT.txt", 'UTF8', function (err, buf) {
-      const prefix = '/status-sc '
-      port = buf
+    fs.readFile("./PORTM.txt", 'UTF8', function (err, buf) {
+      const prefix = '/status-mineria '
       var args = message.content.slice(prefix.length).split(' ');
-      if (args[0] === 'fr') {
+      if (IsThereAIP === false) {
+        return message.channel.send("Désolé, mais le serveur n'a pas envore d'IP | Sorry, but the server doesn't have an IP at the moment")
+      } else if (args[0] === 'fr') {
         console.log(args)
         port = buf
         var url = 'https://mcapi.us/server/status?ip=' + ip + '&port=' + port
